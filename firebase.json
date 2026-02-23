@@ -6,18 +6,12 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": ".next",
+    "source": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
       "**/.next/cache/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
     ]
   },
   "auth": {

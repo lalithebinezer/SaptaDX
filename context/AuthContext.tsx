@@ -44,12 +44,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               email: user.email,
               displayName: user.displayName,
               photoURL: user.photoURL,
+              emailVerified: user.emailVerified,
+              providerId: user.providerData[0]?.providerId || "unknown",
               createdAt: serverTimestamp(),
               lastLogin: serverTimestamp(),
+              metadata: {
+                creationTime: user.metadata.creationTime,
+                lastSignInTime: user.metadata.lastSignInTime,
+              },
+              role: user.email === "lalithebinezer26@gmail.com" ? "admin" : "collaborator"
             }, { merge: true }).catch(e => console.warn("Could not create user doc (offline):", e));
           } else if (userSnap) {
-            await setDoc(userRef, { lastLogin: serverTimestamp() }, { merge: true })
-              .catch(e => console.warn("Could not update lastLogin (offline):", e));
+            await setDoc(userRef, { 
+              lastLogin: serverTimestamp(),
+              emailVerified: user.emailVerified,
+              metadata: {
+                lastSignInTime: user.metadata.lastSignInTime,
+              }
+            }, { merge: true })
+              .catch(e => console.warn("Could not update user metadata (offline):", e));
           }
         } catch (dbError) {
           console.warn("User data sync skipped (offline or error):", dbError);

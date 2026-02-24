@@ -67,6 +67,22 @@ body {
   border: 1px solid var(--glass-border);
 }
 
+.glass-intense {
+  background: var(--glass-bg);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid var(--glass-border);
+}
+@keyframes scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 0.5; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+
 .premium-gradient {
   background: linear-gradient(135deg, var(--foreground) 0%, #666666 100%);
 }

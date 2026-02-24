@@ -29,6 +29,15 @@ export default function Navbar() {
   const { user } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close menu on route change
   useEffect(() => {
@@ -36,12 +45,15 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center p-4">
+    <nav className={cn("fixed top-0 left-0 right-0 z-50 flex justify-center p-4 transition-all duration-500", scrolled ? "py-2" : "py-4")}>
       <motion.div 
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="glass rounded-2xl flex items-center justify-between w-full max-w-7xl px-4 md:px-8 py-3 shadow-glass border-glass-border/40"
+        className={cn(
+          "rounded-2xl flex items-center justify-between w-full max-w-7xl px-4 md:px-8 py-3 transition-all duration-500 border border-glass-border/40",
+          scrolled ? "glass-intense shadow-xl shadow-black/10 scale-[0.98]" : "glass shadow-glass"
+        )}
       >
         {/* Logo Section */}
         <div className="flex items-center gap-4">

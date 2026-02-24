@@ -26,6 +26,22 @@ const SUGGESTIONS = [
 export default function DXPage() {
   const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+
+  const simulateBotResponse = (userText: string) => {
+    setIsTyping(true);
+    setTimeout(() => {
+      const responses = [
+        "That sounds like a bold vision! How do you see SaptaDX helping you scale?",
+        "Interesting approach. Our engineers are constantly innovating in that space.",
+        "Infrastructure and digital-first mindset – that's the perfect combo.",
+        "Tell me more. I'm curious about the specific construction challenges you're facing."
+      ];
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      setMessages(prev => [...prev, { role: 'bot', text: randomResponse }]);
+      setIsTyping(false);
+    }, 1500);
+  };
 
   return (
     <div className="flex-1 flex flex-col max-w-5xl mx-auto w-full px-4 md:px-6 py-8 page-container relative overflow-hidden">
@@ -73,6 +89,22 @@ export default function DXPage() {
               )}
             </motion.div>
           ))}
+          {isTyping && (
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3"
+            >
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Bot size={20} className="text-primary animate-pulse" />
+              </div>
+              <div className="bg-foreground/5 px-4 py-3 rounded-2xl rounded-tl-none flex gap-1">
+                <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                <span className="w-1.5 h-1.5 bg-foreground/40 rounded-full animate-bounce" />
+              </div>
+            </motion.div>
+          )}
         </div>
 
         {/* Suggestions */}
@@ -82,7 +114,10 @@ export default function DXPage() {
               key={i}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setMessages([...messages, { role: 'user', text: suggestion }])}
+              onClick={() => {
+                setMessages([...messages, { role: 'user', text: suggestion }]);
+                simulateBotResponse(suggestion);
+              }}
               className="text-xs md:text-sm px-4 py-2 rounded-full glass border border-glass-border hover:border-primary transition-colors text-muted-foreground hover:text-primary"
             >
               {suggestion}
@@ -95,9 +130,11 @@ export default function DXPage() {
           <form 
             onSubmit={(e) => {
               e.preventDefault();
-              if (!input) return;
-              setMessages([...messages, { role: 'user', text: input }]);
+              if (!input || isTyping) return;
+              const userText = input;
+              setMessages([...messages, { role: 'user', text: userText }]);
               setInput("");
+              simulateBotResponse(userText);
             }}
             className="relative"
           >
@@ -110,7 +147,8 @@ export default function DXPage() {
             />
             <button 
               type="submit"
-              className="absolute right-2 top-2 bottom-2 px-4 premium-gradient text-background rounded-xl hover:scale-105 transition-transform"
+              disabled={!input || isTyping}
+              className="absolute right-2 top-2 bottom-2 px-4 premium-gradient text-background rounded-xl hover:scale-105 transition-transform disabled:opacity-50 disabled:scale-100"
             >
               <Send size={18} />
             </button>

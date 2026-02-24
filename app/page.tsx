@@ -92,9 +92,10 @@ export default function Home() {
           transition={{ delay: 0.5, duration: 1 }}
           className="flex-1 relative flex justify-center items-center aspect-square md:aspect-auto"
         >
-          <div className="relative w-full max-w-[500px] aspect-square flex items-center justify-center">
+          <div className="relative w-full max-w-[500px] aspect-square flex items-center justify-center overflow-hidden rounded-full">
              <Globe className="!relative" />
-             <div className="pointer-events-none absolute inset-0 h-full bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.15),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.05),transparent_70%)] blur-2xl" />
+             <div className="pointer-events-none absolute inset-0 h-full bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.15),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.05),transparent_70%)] blur-2xl z-0" />
+             <div className="absolute inset-x-0 h-[2px] bg-primary/20 animate-scan z-10" />
           </div>
         </motion.div>
 

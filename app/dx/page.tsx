@@ -28,7 +28,7 @@ export default function DXPage() {
   const [input, setInput] = useState("");
 
   return (
-    <div className="flex-1 flex flex-col max-w-5xl mx-auto w-full px-6 py-8 h-[calc(100vh-100px)] page-container overflow-hidden">
+    <div className="flex-1 flex flex-col max-w-5xl mx-auto w-full px-4 md:px-6 py-8 page-container relative overflow-hidden">
 
       <div className="flex items-center gap-3 mb-8">
         <div className="p-3 premium-gradient rounded-2xl text-background">
@@ -43,9 +43,9 @@ export default function DXPage() {
         </div>
       </div>
 
-      <div className="flex-1 glass rounded-[32px] overflow-hidden flex flex-col shadow-premium border border-glass-border">
+      <div className="flex-1 glass rounded-3xl md:rounded-[32px] overflow-hidden flex flex-col shadow-premium border border-glass-border">
         {/* Chat Area */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 no-scrollbar">
           {messages.map((msg, i) => (
             <motion.div
               key={i}

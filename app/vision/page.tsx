@@ -5,12 +5,12 @@ import { Quote } from "lucide-react";
 
 export default function Vision() {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 page-container">
+    <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 page-container center-content">
 
       <motion.div 
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-4xl w-full glass p-8 md:p-14 rounded-[40px] shadow-premium relative overflow-hidden"
+        className="max-w-4xl w-full glass p-6 md:p-14 rounded-[32px] md:rounded-[40px] shadow-premium relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-6 opacity-10">
           <Quote size={80} className="text-primary" />

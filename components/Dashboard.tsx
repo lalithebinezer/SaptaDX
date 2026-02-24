@@ -33,23 +33,26 @@ export default function Dashboard() {
 
 
   return (
-    <div className="flex-1 flex w-full max-w-7xl mx-auto px-6 py-4 gap-6 h-full overflow-hidden">
+    <div className="flex-1 flex flex-col lg:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 py-4 gap-6 h-full overflow-hidden page-container">
+      {/* Mobile Sidebar (Collapsible) / Drawer or Top Nav could be added here */}
+      {/* For now, let's make the sidebar responsive */}
+      
       {/* Sidebar Navigation */}
       <motion.div 
         initial={{ x: -20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        className="w-64 shrink-0 flex flex-col gap-4"
+        className="hidden lg:flex w-64 shrink-0 flex-col gap-4"
       >
         {/* User Card */}
         <div className="glass p-5 rounded-[24px] text-center border border-glass-border">
-          <div className="w-20 h-20 rounded-full mx-auto mb-3 bg-primary/10 flex items-center justify-center overflow-hidden border-2 border-primary/20">
+          <div className="w-16 h-16 rounded-full mx-auto mb-3 bg-primary/10 flex items-center justify-center overflow-hidden border-2 border-primary/20">
             {user?.photoURL ? (
               <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
             ) : (
-              <User size={32} className="text-primary" />
+              <User size={28} className="text-primary" />
             )}
           </div>
-          <h2 className="text-lg font-bold line-clamp-1">{user?.displayName || "Full Name"}</h2>
+          <h2 className="text-base font-bold line-clamp-1">{user?.displayName || "Full Name"}</h2>
           <p className="text-[10px] text-muted-foreground italic">Professional title</p>
         </div>
 
@@ -64,6 +67,30 @@ export default function Dashboard() {
           <NavItem icon={<LogOut size={16} />} label="Sign out" onClick={logout} />
         </div>
       </motion.div>
+
+      {/* Mobile Quick Profile (Horizontal on small screens) */}
+      <div className="flex lg:hidden items-center gap-4 glass p-3 rounded-2xl border border-glass-border shrink-0">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden border border-primary/20">
+            {user?.photoURL ? (
+              <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              <User size={20} className="text-primary" />
+            )}
+          </div>
+          <div className="flex-1">
+            <h2 className="text-sm font-bold truncate">{user?.displayName || "Full Name"}</h2>
+            <p className="text-[10px] text-muted-foreground">Professional title</p>
+          </div>
+          <button 
+            onClick={() => setSubView(subView === "profile" ? "dashboard" : "profile")}
+            className="p-2 rounded-xl bg-foreground/5 hover:bg-foreground/10 transition-colors"
+          >
+            {subView === "profile" ? <X size={18} /> : <Settings size={18} />}
+          </button>
+          <button onClick={logout} className="p-2 rounded-xl text-red-500 hover:bg-red-500/10 transition-colors">
+            <LogOut size={18} />
+          </button>
+      </div>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-h-0">
@@ -113,51 +140,59 @@ export default function Dashboard() {
               initial={{ opacity: 0, scale: 0.99 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.99 }}
-              className="glass p-8 rounded-[32px] border border-glass-border flex flex-col h-full overflow-y-auto custom-scrollbar"
+              className="glass p-4 md:p-8 rounded-[24px] md:rounded-[32px] border border-glass-border flex flex-col h-full overflow-y-auto no-scrollbar"
             >
-              <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold">Edit profile</h1>
+              <div className="flex items-center justify-between mb-8">
+                <h1 className="text-xl md:text-2xl font-bold">Edit profile</h1>
                 <div className="flex gap-2">
-                  <button onClick={() => setSubView("dashboard")} className="px-4 py-1.5 text-xs font-medium hover:underline text-muted-foreground">Cancel</button>
-                  <button className="px-6 py-1.5 bg-primary text-white rounded-lg text-xs font-bold shadow-premium hover:scale-105 transition-transform">Save profile</button>
+                  <button onClick={() => setSubView("dashboard")} className="px-3 py-1 text-xs font-medium hover:underline text-muted-foreground hidden sm:block">Cancel</button>
+                  <button className="px-4 md:px-6 py-2 bg-primary text-white rounded-xl text-xs font-bold shadow-premium hover:scale-105 transition-transform">Save profile</button>
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="w-full md:w-1/4 flex flex-col items-center">
-                  <div className="w-24 h-24 rounded-2xl bg-primary/10 mb-3 overflow-hidden relative group">
+              <div className="flex flex-col gap-8">
+                {/* Profile Photo Section */}
+                <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-glass-border/30">
+                  <div className="w-24 h-24 rounded-2xl bg-primary/10 overflow-hidden relative group shrink-0">
                     {user?.photoURL ? <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" /> : <User size={32} className="text-primary mt-8 mx-auto" />}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer text-white text-[10px] font-bold">Change</div>
                   </div>
-                  <div className="flex gap-2">
-                    <button className="text-[10px] font-bold text-primary border border-primary/20 px-3 py-1.5 rounded-lg bg-primary/5">Choose Image</button>
-                    <button className="text-[10px] font-bold text-red-500">Remove</button>
+                  <div className="flex flex-col gap-2 text-center sm:text-left">
+                    <p className="text-sm font-bold">Profile Picture</p>
+                    <div className="flex gap-2">
+                      <button className="text-[10px] font-bold text-primary border border-primary/20 px-3 py-1.5 rounded-lg bg-primary/5 hover:bg-primary/10 transition-colors">Choose Image</button>
+                      <button className="text-[10px] font-bold text-red-500 hover:bg-red-500/5 px-2 py-1.5 rounded-lg transition-colors">Remove</button>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex-1 space-y-3">
-                  <ProfileField label="Full name" defaultValue={user?.displayName || ""} />
-                  <ProfileField label="Email" defaultValue={user?.email || ""} disabled />
-                  <ProfileField label="Location" placeholder="Select project" type="select" />
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold ml-1 text-muted-foreground uppercase opacity-70">About me</label>
-                    <textarea 
-                      className="w-full bg-background/30 border border-glass-border rounded-xl py-2 px-3 focus:outline-none focus:ring-1 focus:ring-primary min-h-[60px] text-xs"
-                      placeholder="Tell something about yourself"
-                    />
-                  </div>
-                </div>
-
-                <div className="w-full md:w-1/3 grid grid-cols-2 gap-2">
-                  {[1,2,3,4,5,6,7,8].map(i => (
-                    <div key={i} className="space-y-1 text-left">
-                      <label className="text-[10px] font-bold ml-1 text-muted-foreground uppercase opacity-70">Field {i}</label>
-                      <input 
-                        className="w-full bg-background/30 border border-glass-border rounded-lg py-1.5 px-3 focus:outline-none focus:ring-1 focus:ring-primary text-xs"
-                        placeholder="Answer"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Basic Info */}
+                  <div className="space-y-4">
+                    <ProfileField label="Full name" defaultValue={user?.displayName || ""} />
+                    <ProfileField label="Email" defaultValue={user?.email || ""} disabled />
+                    <ProfileField label="Location" placeholder="Select project" type="select" />
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold ml-1 text-muted-foreground uppercase opacity-70 tracking-wider">About me</label>
+                      <textarea 
+                        className="w-full bg-background/30 border border-glass-border rounded-xl py-2 px-3 focus:outline-none focus:ring-1 focus:ring-primary min-h-[80px] text-xs transition-all"
+                        placeholder="Tell something about yourself"
                       />
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Additional Fields */}
+                  <div className="grid grid-cols-2 gap-4 h-fit">
+                    {[1,2,3,4,5,6].map(i => (
+                      <div key={i} className="space-y-1">
+                        <label className="text-[10px] font-bold ml-1 text-muted-foreground uppercase opacity-70 tracking-wider">Field {i}</label>
+                        <input 
+                          className="w-full bg-background/30 border border-glass-border rounded-xl py-2 px-3 focus:outline-none focus:ring-1 focus:ring-primary text-xs transition-all"
+                          placeholder="Answer"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>

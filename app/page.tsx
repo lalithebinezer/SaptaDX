@@ -9,11 +9,11 @@ import { Globe } from "@/components/ui/globe";
 
 export default function Home() {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center relative overflow-hidden px-6 page-container">
+    <div className="flex-1 flex flex-col items-center justify-center relative overflow-hidden px-6 page-container center-content">
       <SpaceBackground />
 
       
-      <div className="max-w-7xl w-full z-10 py-8 flex flex-col md:flex-row items-center gap-12 mt-12 md:mt-0">
+      <div className="max-w-7xl w-full z-10 py-12 flex flex-col lg:flex-row items-center gap-12 mt-20 lg:mt-0">
         <div className="flex-1 text-center md:text-left">
           <motion.div
             initial={{ x: -30, opacity: 0 }}

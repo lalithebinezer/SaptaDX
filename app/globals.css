@@ -121,19 +121,27 @@ body {
 
 /* Ensure pages fit in viewport when possible */
 .page-container {
-  height: calc(100vh - var(--nav-height) - 40px);
+  min-height: calc(100vh - var(--nav-height) - 40px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
 }
 
-@media (max-height: 800px) {
-  .page-container {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+@media (min-width: 1024px) {
+  .page-container.center-content {
+    height: calc(100vh - var(--nav-height) - 40px);
+    justify-content: center;
+    overflow: hidden;
   }
-}@keyframes pan {
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+@keyframes pan {
   from { background-position: 0% 0%; }
   to { background-position: -200% 0%; }
 }

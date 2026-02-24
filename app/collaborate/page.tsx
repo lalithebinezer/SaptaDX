@@ -114,19 +114,19 @@ export default function Collaborate() {
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 relative overflow-hidden page-container">
+    <div className="flex-1 flex flex-col items-center justify-center px-6 relative overflow-hidden page-container center-content">
 
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-foreground/5 rounded-full blur-[100px] -mr-64 -mt-64" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-foreground/5 rounded-full blur-[100px] -ml-64 -mb-64" />
+      <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-foreground/5 rounded-full blur-[80px] md:blur-[100px] -mr-32 md:-mr-64 -mt-32 md:-mt-64" />
+      <div className="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-foreground/5 rounded-full blur-[80px] md:blur-[100px] -ml-32 md:-ml-64 -mb-32 md:-mb-64" />
 
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full glass p-10 rounded-[40px] shadow-premium relative z-10 border border-glass-border"
+        className="max-w-md w-full glass p-6 md:p-10 rounded-[32px] md:rounded-[40px] shadow-premium relative z-10 border border-glass-border my-12"
       >
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold mb-2">{isLogin ? "Welcome Back" : "Join the Pulse"}</h1>
-          <p className="text-muted-foreground">{isLogin ? "Ready to collaborate?" : "Start your digital journey with us."}</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">{isLogin ? "Welcome Back" : "Join the Pulse"}</h1>
+          <p className="text-sm md:text-base text-muted-foreground">{isLogin ? "Ready to collaborate?" : "Start your digital journey with us."}</p>
         </div>
 
         {error && <p className="bg-red-500/10 text-red-500 p-3 rounded-xl text-sm mb-6 text-center">{error}</p>}

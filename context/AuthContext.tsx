@@ -15,6 +15,7 @@ import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  isAdmin: boolean;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   sendVerification: () => Promise<void>;
@@ -88,8 +89,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const isAdmin = user?.email === "lalithebinezer26@gmail.com";
+
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, logout, sendVerification }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin, signInWithGoogle, logout, sendVerification }}>
       {children}
     </AuthContext.Provider>
   );

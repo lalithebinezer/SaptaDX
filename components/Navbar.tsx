@@ -26,7 +26,7 @@ const navItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -88,6 +88,24 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            {isAdmin && (
+               <Link
+                 href="/admin"
+                 className={cn(
+                   "relative px-3 py-2 text-sm font-bold transition-colors hover:text-primary text-primary/80",
+                   pathname === "/admin" ? "text-primary" : "text-primary/60"
+                 )}
+               >
+                 Admin
+                 {pathname === "/admin" && (
+                   <motion.div
+                     layoutId="activeNav"
+                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                   />
+                 )}
+               </Link>
+            )}
           </div>
 
           <div className="flex items-center gap-4 pl-4 border-l border-glass-border">
@@ -181,6 +199,17 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className={cn(
+                    "px-4 py-3 rounded-xl text-lg font-bold transition-colors border border-primary/20",
+                    pathname === "/admin" ? "bg-primary/10 text-primary" : "text-primary/70 hover:bg-primary/5"
+                  )}
+                >
+                  Admin Panel
+                </Link>
+              )}
             </div>
 
             <div className="pt-6 border-t border-glass-border flex flex-col gap-4">
